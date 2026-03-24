@@ -21,7 +21,7 @@ class HouseService implements HouseServiceInterface
         $houseListResponse = $this->aangHouseService->list($params);
 
         if ($houseListResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
