@@ -4,7 +4,10 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "enc-env": "gcloud kms encrypt --plaintext-file=./envs/.env.dev --ciphertext-file=./envs/.env.dev.enc --location=us-central1 --keyring=avatar --key=avatar",
+        "enc-env-prod": "gcloud kms encrypt --plaintext-file=./envs/.env.prod --ciphertext-file=./envs/.env.prod.enc --location=us-central1 --keyring=avatar --key=avatar",
+        "enc-all-envs": "npm run enc-env && npm run enc-env-prod"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
