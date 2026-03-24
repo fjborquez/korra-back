@@ -22,7 +22,7 @@ class InventoryService implements InventoryServiceInterface
         $inventoryListResponse = $this->azulaInventoryService->list($params);
 
         if ($inventoryListResponse->failed()) {
-            throw new UnexpectedErrorException();
+            throw new UnexpectedErrorException;
         }
 
         return [
