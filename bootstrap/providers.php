@@ -8,9 +8,11 @@ return [
     AppServiceProvider::class,
 
     HouseServiceProvider::class,
+    App\Providers\AangServices\AuthTokenServiceProvider::class,
 
     InventoryServiceProvider::class,
 
+    App\Providers\KorraServices\AuthTokenServiceProvider::class,
     App\Providers\KorraServices\HouseServiceProvider::class,
     App\Providers\KorraServices\InventoryServiceProvider::class,
 
