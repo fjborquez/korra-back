@@ -18,7 +18,7 @@ class InventoryService implements InventoryServiceInterface
         $params = [
             'filter[house_id]' => $houseId,
             'filter[has_active_product_status]' => true,
-            'include' => 'productStatus'
+            'include' => 'productStatus',
         ];
         $inventoryListResponse = $this->azulaInventoryService->list($params);
 
