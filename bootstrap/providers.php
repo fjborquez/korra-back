@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\AangServices\AuthTokenServiceProvider;
 use App\Providers\AangServices\HouseServiceProvider;
 use App\Providers\AppServiceProvider;
 use App\Providers\AzulaServices\InventoryServiceProvider;
@@ -8,7 +9,7 @@ return [
     AppServiceProvider::class,
 
     HouseServiceProvider::class,
-    App\Providers\AangServices\AuthTokenServiceProvider::class,
+    AuthTokenServiceProvider::class,
 
     InventoryServiceProvider::class,
 
