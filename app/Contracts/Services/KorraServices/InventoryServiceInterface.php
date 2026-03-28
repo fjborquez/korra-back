@@ -7,4 +7,6 @@ interface InventoryServiceInterface
     public function list(int $houseId): array;
 
     public function discard(int $id): array;
+
+    public function consume(int $id): array;
 }

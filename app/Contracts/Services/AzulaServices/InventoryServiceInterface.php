@@ -10,5 +10,9 @@ interface InventoryServiceInterface
 
     public function discard(int $id): Response;
 
+    public function consume(int $id): Response;
+
     public function get(int $id): Response;
+
+    public function update(int $id, array $data = []): Response;
 }

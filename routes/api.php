@@ -8,5 +8,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/user/{id}/houses', [HouseController::class, 'list']);
 Route::get('/user/{id}/houses/{houseId}/inventory', [InventoryController::class, 'list']);
 Route::put('/user/{id}/houses/{houseId}/inventory/{inventoryId}/discard', [InventoryController::class, 'discard']);
+Route::put('/user/{id}/houses/{houseId}/inventory/{inventoryId}/consume', [InventoryController::class, 'consume']);
 
 Route::post('/auth/token', [AuthTokenController::class, 'create']);
