@@ -5,8 +5,8 @@ namespace App\Services\KorraServices;
 use App\Contracts\Services\AzulaServices\InventoryServiceInterface as AzulaInventoryServiceInterface;
 use App\Contracts\Services\KorraServices\InventoryServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Arr;
+use Symfony\Component\HttpFoundation\Response;
 
 class InventoryService implements InventoryServiceInterface
 {
