@@ -6,5 +6,9 @@ use Illuminate\Http\Client\Response;
 
 interface InventoryServiceInterface
 {
-    public function list(): Response;
+    public function list(array $params = []): Response;
+
+    public function discard(int $id): Response;
+
+    public function get(int $id): Response;
 }
