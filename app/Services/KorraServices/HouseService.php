@@ -17,6 +17,7 @@ class HouseService implements HouseServiceInterface
     {
         $params = [
             'filter[persons.user.id]' => $userId,
+            'include' => 'city,persons.user',
         ];
         $houseListResponse = $this->aangHouseService->list($params);
 
