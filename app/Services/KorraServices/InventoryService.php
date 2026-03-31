@@ -152,7 +152,8 @@ class InventoryService implements InventoryServiceInterface
         return [];
     }
 
-    private function calculateFoodWaste($inventory = []) {
+    private function calculateFoodWaste($inventory = [])
+    {
         $inventoryCount = 0;
         $expiredCount = 0;
 
