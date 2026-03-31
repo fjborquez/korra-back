@@ -27,8 +27,15 @@ class InventoryService implements InventoryServiceInterface
             throw new UnexpectedErrorException;
         }
 
+        $foodWastePercentage = $this->calculateFoodWaste($inventoryListResponse->json());
+
         return [
-            'message' => $inventoryListResponse->json(),
+            'message' => [
+                'inventory' => $inventoryListResponse->json(),
+                'statistics' => [
+                    'food_waste_percentage' => $foodWastePercentage,
+                ],
+            ],
             'code' => Response::HTTP_OK,
         ];
     }
@@ -143,5 +150,31 @@ class InventoryService implements InventoryServiceInterface
         }
 
         return [];
+    }
+
+    private function calculateFoodWaste($inventory = []) {
+        $inventoryCount = 0;
+        $expiredCount = 0;
+
+        foreach ($inventory as $item) {
+            foreach ($item['product_status'] as $status) {
+                if ($status['pivot']['is_active']) {
+                    if ($status['id'] == 1 || $status['id'] == 2
+                        || $status['id'] == 3 || $status['id'] == 6) {
+                        $inventoryCount++;
+
+                        if ($status['id'] == 3) {
+                            $expiredCount++;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($inventoryCount > 0) {
+            return ($expiredCount / $inventoryCount) * 100;
+        } else {
+            return 0;
+        }
     }
 }
