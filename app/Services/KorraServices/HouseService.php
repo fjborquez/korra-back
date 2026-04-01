@@ -3,12 +3,12 @@
 namespace App\Services\KorraServices;
 
 use App\Contracts\Services\AangServices\HouseServiceInterface as AangHouseServiceInterface;
-use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceInterface;
 use App\Contracts\Services\AangServices\PersonHouseServiceInterface as AangPersonHouseServiceInterface;
+use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceInterface;
 use App\Contracts\Services\KorraServices\HouseServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
-use Symfony\Component\HttpFoundation\Response;
 use App\HouseRole;
+use Symfony\Component\HttpFoundation\Response;
 
 class HouseService implements HouseServiceInterface
 {
@@ -93,13 +93,13 @@ class HouseService implements HouseServiceInterface
 
         foreach ($houses as $house) {
             $housesId[$house['id']] = [
-                'is_default' => array_key_exists("is_default", $data) ? 0 : $house['pivot']['is_default'],
+                'is_default' => array_key_exists('is_default', $data) ? 0 : $house['pivot']['is_default'],
                 'house_role_id' => $house['pivot']['house_role_id'],
             ];
         }
 
         $housesId[$houseId] = [
-            'is_default' => array_key_exists("is_default", $data) && $data['is_default'],
+            'is_default' => array_key_exists('is_default', $data) && $data['is_default'],
             'house_role_id' => HouseRole::HOST,
         ];
 

@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthTokenController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\InventoryController;
-use App\Http\Controllers\CityController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user/{id}/houses', [HouseController::class, 'list']);

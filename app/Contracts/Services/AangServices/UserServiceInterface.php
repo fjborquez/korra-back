@@ -4,6 +4,7 @@ namespace App\Contracts\Services\AangServices;
 
 use Illuminate\Http\Client\Response;
 
-interface UserServiceInterface {
+interface UserServiceInterface
+{
     public function get(int $id): Response;
 }
