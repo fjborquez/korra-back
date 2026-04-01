@@ -1,12 +1,12 @@
 <?php
 
 use App\Providers\AangServices\AuthTokenServiceProvider;
+use App\Providers\AangServices\CityServiceProvider;
 use App\Providers\AangServices\HouseServiceProvider;
+use App\Providers\AangServices\PersonHouseServiceProvider;
 use App\Providers\AangServices\UserServiceProvider;
 use App\Providers\AppServiceProvider;
 use App\Providers\AzulaServices\InventoryServiceProvider;
-use App\Providers\AangServices\PersonHouseServiceProvider;
-use App\Providers\AangServices\CityServiceProvider;
 
 return [
     AppServiceProvider::class,
