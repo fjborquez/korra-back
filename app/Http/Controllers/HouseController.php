@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Services\KorraServices\HouseServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
-use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\UserHouseRequest;
-
+use Symfony\Component\HttpFoundation\Response;
 
 class HouseController extends Controller
 {
