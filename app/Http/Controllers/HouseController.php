@@ -39,4 +39,15 @@ class HouseController extends Controller
             return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function delete(int $userId, int $houseId)
+    {
+        try {
+            $response = $this->houseService->delete($userId, $houseId);
+
+            return response()->json(['message' => $response['message']], $response['code']);
+        } catch (UnexpectedErrorException $exception) {
+            return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

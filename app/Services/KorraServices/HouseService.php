@@ -22,6 +22,7 @@ class HouseService implements HouseServiceInterface
     {
         $params = [
             'filter[persons.user.id]' => $userId,
+            'filter[is_active]' => 1,
             'include' => 'city,persons.user',
         ];
         $houseListResponse = $this->aangHouseService->list($params);
@@ -121,6 +122,31 @@ class HouseService implements HouseServiceInterface
             $message = 'Person not found';
             $code = Response::HTTP_NOT_FOUND;
         } elseif ($userHouseRelationshipResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => $message,
+            'code' => $code,
+        ];
+    }
+
+    public function delete(int $userId, int $houseId): array
+    {
+        $response = $this->aangHouseService->disable($houseId);
+        $message = '';
+        $code = 0;
+
+        if ($response->noContent()) {
+            $message = 'House disabled successfully';
+            $code = Response::HTTP_OK;
+        } elseif ($response->notFound()) {
+            $message = 'House not found';
+            $code = Response::HTTP_NOT_FOUND;
+        } elseif ($response->badRequest()) {
+            $message = 'House is already disabled';
+            $code = Response::HTTP_BAD_REQUEST;
+        } else {
             throw new UnexpectedErrorException;
         }
 
