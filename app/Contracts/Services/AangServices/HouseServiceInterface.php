@@ -7,4 +7,8 @@ use Illuminate\Http\Client\Response;
 interface HouseServiceInterface
 {
     public function list(): Response;
+
+    public function create(array $data = []): Response;
+
+    public function get(int $houseId): Response;
 }
