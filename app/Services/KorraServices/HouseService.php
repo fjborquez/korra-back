@@ -229,7 +229,6 @@ class HouseService implements HouseServiceInterface
         ];
     }
 
-
     public function delete(int $userId, int $houseId): array
     {
         $response = $this->aangHouseService->disable($houseId);

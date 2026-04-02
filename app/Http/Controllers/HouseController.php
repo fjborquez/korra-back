@@ -39,7 +39,7 @@ class HouseController extends Controller
         }
     }
 
-    public function update(int $userId, int $houseId,UserHouseRequest $request)
+    public function update(int $userId, int $houseId, UserHouseRequest $request)
     {
         $validated = $request->safe()->only($this->fields);
 
