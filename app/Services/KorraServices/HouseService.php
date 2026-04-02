@@ -131,6 +131,105 @@ class HouseService implements HouseServiceInterface
         ];
     }
 
+    public function update(int $userId, int $houseId, array $data): array
+    {
+        $getUserResponse = $this->aangUserService->get($userId);
+
+        if ($getUserResponse->notFound()) {
+            $message = 'User not found';
+            $code = Response::HTTP_NOT_FOUND;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($getUserResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        $user = $getUserResponse->json();
+        $houses = $user['person']['houses'];
+        $housesId = [];
+        $oldHouse = [];
+
+        foreach ($houses as $house) {
+            $housesId[$house['id']] = [
+                'is_default' => array_key_exists('is_default', $data) ? 0 : $house['pivot']['is_default'],
+                'house_role_id' => $house['pivot']['house_role_id'],
+            ];
+
+            if ($house['id'] == $houseId) {
+                $oldHouse = $house;
+                $housesId[$house['id']] = [
+                    'is_default' => $data['is_default'],
+                    'house_role_id' => $house['pivot']['house_role_id'],
+                ];
+            }
+        }
+
+        $updateHouseResponse = $this->aangHouseService->update($houseId, $data);
+
+        if ($updateHouseResponse->unprocessableEntity()) {
+            $message = $updateHouseResponse->json('message');
+            $code = Response::HTTP_UNPROCESSABLE_ENTITY;
+            $this->aangHouseService->update($houseId, $oldHouse);
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($updateHouseResponse->notFound()) {
+            $message = 'House not found';
+            $code = Response::HTTP_NOT_FOUND;
+            $this->aangHouseService->update($houseId, $oldHouse);
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($updateHouseResponse->failed()) {
+            $this->aangHouseService->update($houseId, $oldHouse);
+            throw new UnexpectedErrorException;
+        }
+
+        $personHouseUpdateResponse = $this->aangPersonHouseService->update($user['person']['id'], ['houses' => $housesId]);
+
+        if ($personHouseUpdateResponse->unprocessableEntity()) {
+            $message = $personHouseUpdateResponse->json('message');
+            $code = Response::HTTP_UNPROCESSABLE_ENTITY;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($personHouseUpdateResponse->notFound()) {
+            $message = 'Person not found';
+            $code = Response::HTTP_NOT_FOUND;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($personHouseUpdateResponse->badRequest()) {
+            // TODO: COrregir mensaje
+            $message = 'The person already has a house with description in city';
+            $code = Response::HTTP_BAD_REQUEST;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($personHouseUpdateResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => 'House updated successfully',
+            'code' => Response::HTTP_OK,
+        ];
+    }
+
+
     public function delete(int $userId, int $houseId): array
     {
         $response = $this->aangHouseService->disable($houseId);

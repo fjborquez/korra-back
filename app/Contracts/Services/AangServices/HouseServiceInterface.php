@@ -10,6 +10,8 @@ interface HouseServiceInterface
 
     public function create(array $data = []): Response;
 
+    public function update(int $houseId, array $data = []): Response;
+
     public function get(int $houseId): Response;
 
     public function disable(int $houseId): Response;

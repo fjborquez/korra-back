@@ -8,5 +8,7 @@ interface HouseServiceInterface
 
     public function create(int $userId, array $data): array;
 
+    public function update(int $userId, int $houseId, array $data): array;
+
     public function delete(int $userId, int $houseId): array;
 }
