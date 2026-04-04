@@ -2,10 +2,10 @@
 
 namespace App\Services\TophServices;
 
-use Illuminate\Support\Facades\Http;
+use App\Contracts\Services\TophServices\UnitOfMeasurementServiceInterface;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Config;
-use App\Contracts\Services\TophServices\UnitOfMeasurementServiceInterface;
+use Illuminate\Support\Facades\Http;
 
 class UnitOfMeasurementService implements UnitOfMeasurementServiceInterface
 {

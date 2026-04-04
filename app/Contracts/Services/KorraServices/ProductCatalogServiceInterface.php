@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Services\KorraServices;
 
-interface ProductCatalogServiceInterface {
+interface ProductCatalogServiceInterface
+{
     public function list(): array;
 }

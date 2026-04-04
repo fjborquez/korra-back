@@ -4,10 +4,10 @@ use App\Http\Controllers\AuthTokenController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\InventoryController;
-use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\ProductCatalogController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\UnitOfMeasurementController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/user/{id}/houses', [HouseController::class, 'list']);
 Route::post('/user/{id}/houses', [HouseController::class, 'create']);
