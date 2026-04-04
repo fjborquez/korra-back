@@ -2,8 +2,8 @@
 
 namespace App\Services\KorraServices;
 
-use App\Contracts\Services\AangServices\PersonServiceInterface as AangPersonServiceInterface;
 use App\Contracts\Services\AangServices\PersonHouseServiceInterface as AangPersonHouseServiceInterface;
+use App\Contracts\Services\AangServices\PersonServiceInterface as AangPersonServiceInterface;
 use App\Contracts\Services\KorraServices\ResidentServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
 use App\HouseRole;

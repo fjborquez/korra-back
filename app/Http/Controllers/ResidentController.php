@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ResidentRequest;
 use App\Contracts\Services\KorraServices\ResidentServiceInterface;
-use Symfony\Component\HttpFoundation\Response;
 use App\Exceptions\UnexpectedErrorException;
+use App\Http\Requests\ResidentRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class ResidentController extends Controller
 {
