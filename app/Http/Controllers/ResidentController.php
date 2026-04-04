@@ -23,4 +23,15 @@ class ResidentController extends Controller
             return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public function update(int $userId, int $houseId, int $residentId, ResidentRequest $data)
+    {
+        try {
+            $response = $this->residentService->update($userId, $houseId, $residentId, $data->all());
+
+            return response()->json(['message' => $response['message']], $response['code']);
+        } catch (UnexpectedErrorException $exception) {
+            return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 }

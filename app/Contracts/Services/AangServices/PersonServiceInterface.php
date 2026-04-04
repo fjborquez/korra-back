@@ -9,4 +9,8 @@ interface PersonServiceInterface
     public function create(array $data = []): Response;
 
     public function delete(int $id): Response;
+
+    public function get(int $id): Response;
+
+    public function update(int $id, array $data = []): Response;
 }

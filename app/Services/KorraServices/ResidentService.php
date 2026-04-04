@@ -61,4 +61,48 @@ class ResidentService implements ResidentServiceInterface
             'code' => Response::HTTP_CREATED,
         ];
     }
+
+    public function update(int $userId, int $houseId, int $residentId, array $residentData): array
+    {
+        $getPersonResponse = $this->aangPersonService->get($residentId);
+        if ($getPersonResponse->notFound()) {
+            $message = 'Person not found';
+            $code = Response::HTTP_NOT_FOUND;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($getPersonResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        $person = $getPersonResponse->json();
+        $personBackup = [];
+
+        foreach ($person as $property => $value) {
+            $personBackup[$property] = $value;
+        }
+
+        $person = array_merge($person, $residentData);
+        $updatePersonResponse = $this->aangPersonService->update($residentId, $person);
+
+        if ($updatePersonResponse->unprocessableEntity()) {
+            $message = $updatePersonResponse->json('message');
+            $code = $updatePersonResponse->status();
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($updatePersonResponse->failed()) {
+            $this->aangPersonService->update($residentId, $personBackup);
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => 'Resident updated successfully',
+            'code' => Response::HTTP_OK,
+        ];
+    }
 }
