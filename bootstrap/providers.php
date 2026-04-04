@@ -8,7 +8,9 @@ use App\Providers\AangServices\PersonServiceProvider;
 use App\Providers\AangServices\UserServiceProvider;
 use App\Providers\AppServiceProvider;
 use App\Providers\AzulaServices\InventoryServiceProvider;
-use App\Providers\KorraServices\ResidentServiceProvider;
+use App\Providers\ZukoServices\ProductCatalogServiceProvider;
+use App\Providers\TophServices\UnitOfMeasurementServiceProvider;
+use Illuminate\Support\Facades\App;
 
 return [
     AppServiceProvider::class,
@@ -19,13 +21,19 @@ return [
     PersonHouseServiceProvider::class,
     CityServiceProvider::class,
     PersonServiceProvider::class,
-    ResidentServiceProvider::class,
 
     InventoryServiceProvider::class,
 
-    App\Providers\KorraServices\AuthTokenServiceProvider::class,
-    App\Providers\KorraServices\HouseServiceProvider::class,
-    App\Providers\KorraServices\InventoryServiceProvider::class,
-    App\Providers\KorraServices\CityServiceProvider::class,
+    ProductCatalogServiceProvider::class,
+
+    UnitOfMeasurementServiceProvider::class,
+
+    \App\Providers\KorraServices\AuthTokenServiceProvider::class,
+    \App\Providers\KorraServices\HouseServiceProvider::class,
+    \App\Providers\KorraServices\InventoryServiceProvider::class,
+    \App\Providers\KorraServices\CityServiceProvider::class,
+    \App\Providers\KorraServices\ProductCatalogServiceProvider::class,
+    \App\Providers\KorraServices\ResidentServiceProvider::class,
+    \App\Providers\KorraServices\UnitOfMeasurementServiceProvider::class,
 
 ];
