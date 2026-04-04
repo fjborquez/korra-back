@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ResidentRequest;
 use App\Contracts\Services\KorraServices\ResidentServiceInterface;
-use Symfony\Component\HttpFoundation\Response;
 use App\Exceptions\UnexpectedErrorException;
+use App\Http\Requests\ResidentRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class ResidentController extends Controller
 {
@@ -17,6 +17,17 @@ class ResidentController extends Controller
     {
         try {
             $response = $this->residentService->create($userId, $houseId, $data->all());
+
+            return response()->json(['message' => $response['message']], $response['code']);
+        } catch (UnexpectedErrorException $exception) {
+            return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function update(int $userId, int $houseId, int $residentId, ResidentRequest $data)
+    {
+        try {
+            $response = $this->residentService->update($userId, $houseId, $residentId, $data->all());
 
             return response()->json(['message' => $response['message']], $response['code']);
         } catch (UnexpectedErrorException $exception) {

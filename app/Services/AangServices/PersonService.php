@@ -18,4 +18,14 @@ class PersonService implements PersonServiceInterface
     {
         return Http::accept('application/json')->retry(3, 100, null, false)->delete(Config::get('aang.url').'/person/'.$id);
     }
+
+    public function get(int $id): Response
+    {
+        return Http::accept('application/json')->retry(3, 100, null, false)->get(Config::get('aang.url').'/person/'.$id);
+    }
+
+    public function update(int $id, array $data = []): Response
+    {
+        return Http::accept('application/json')->retry(3, 100, null, false)->put(Config::get('aang.url').'/person/'.$id, $data);
+    }
 }
