@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Exceptions\UnexpectedErrorException;
-use Illuminate\Http\Response;
 use App\Services\KorraServices\ProductCatalogService;
+use Illuminate\Http\Response;
 
 class ProductCatalogController extends Controller
 {
     public function __construct(
         private readonly ProductCatalogService $productCatalogService
     ) {}
+
     public function list()
     {
         try {

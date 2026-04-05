@@ -11,4 +11,6 @@ interface HouseServiceInterface
     public function update(int $userId, int $houseId, array $data): array;
 
     public function delete(int $userId, int $houseId): array;
+
+    public function get(int $userId, int $houseId): array;
 }

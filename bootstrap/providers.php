@@ -8,9 +8,9 @@ use App\Providers\AangServices\PersonServiceProvider;
 use App\Providers\AangServices\UserServiceProvider;
 use App\Providers\AppServiceProvider;
 use App\Providers\AzulaServices\InventoryServiceProvider;
-use App\Providers\ZukoServices\ProductCatalogServiceProvider;
+use App\Providers\KorraServices\ResidentServiceProvider;
 use App\Providers\TophServices\UnitOfMeasurementServiceProvider;
-use Illuminate\Support\Facades\App;
+use App\Providers\ZukoServices\ProductCatalogServiceProvider;
 
 return [
     AppServiceProvider::class,
@@ -33,7 +33,7 @@ return [
     \App\Providers\KorraServices\InventoryServiceProvider::class,
     \App\Providers\KorraServices\CityServiceProvider::class,
     \App\Providers\KorraServices\ProductCatalogServiceProvider::class,
-    \App\Providers\KorraServices\ResidentServiceProvider::class,
+    ResidentServiceProvider::class,
     \App\Providers\KorraServices\UnitOfMeasurementServiceProvider::class,
 
 ];

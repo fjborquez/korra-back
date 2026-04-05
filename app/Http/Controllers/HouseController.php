@@ -26,6 +26,17 @@ class HouseController extends Controller
         }
     }
 
+    public function get(int $userId, int $houseId)
+    {
+        try {
+            $response = $this->houseService->get($userId, $houseId);
+
+            return response()->json(['message' => $response['message']], $response['code']);
+        } catch (UnexpectedErrorException $exception) {
+            return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function create(int $userId, UserHouseRequest $request)
     {
         $validated = $request->safe()->only($this->fields);

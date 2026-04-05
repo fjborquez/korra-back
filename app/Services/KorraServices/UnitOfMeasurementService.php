@@ -17,8 +17,8 @@ class UnitOfMeasurementService implements UnitOfMeasurementServiceInterface
     {
         $clonedFilter = array_merge([
             'filter' => [
-                'category.name' => 'Mass,Volume,Count'
-            ]
+                'category.name' => 'Mass,Volume,Count',
+            ],
         ], $filter);
         $unitOfMeasurementListResponse = $this->tophUnitOfMeasurementService->list($clonedFilter);
 
