@@ -28,12 +28,12 @@ return [
 
     UnitOfMeasurementServiceProvider::class,
 
-    \App\Providers\KorraServices\AuthTokenServiceProvider::class,
-    \App\Providers\KorraServices\HouseServiceProvider::class,
-    \App\Providers\KorraServices\InventoryServiceProvider::class,
-    \App\Providers\KorraServices\CityServiceProvider::class,
-    \App\Providers\KorraServices\ProductCatalogServiceProvider::class,
+    App\Providers\KorraServices\AuthTokenServiceProvider::class,
+    App\Providers\KorraServices\HouseServiceProvider::class,
+    App\Providers\KorraServices\InventoryServiceProvider::class,
+    App\Providers\KorraServices\CityServiceProvider::class,
+    App\Providers\KorraServices\ProductCatalogServiceProvider::class,
     ResidentServiceProvider::class,
-    \App\Providers\KorraServices\UnitOfMeasurementServiceProvider::class,
+    App\Providers\KorraServices\UnitOfMeasurementServiceProvider::class,
 
 ];

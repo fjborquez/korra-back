@@ -18,6 +18,7 @@ Route::post('/user/{id}/houses/{houseId}/residents', [ResidentController::class,
 Route::put('/user/{id}/houses/{houseId}/residents/{residentId}', [ResidentController::class, 'update']);
 Route::get('/user/{id}/houses/{houseId}/inventory', [InventoryController::class, 'list']);
 Route::post('/user/{id}/houses/{houseId}/inventory', [InventoryController::class, 'store']);
+Route::put('/user/{id}/houses/{houseId}/inventory/{inventoryId}', [InventoryController::class, 'update']);
 Route::put('/user/{id}/houses/{houseId}/inventory/{inventoryId}/discard', [InventoryController::class, 'discard']);
 Route::put('/user/{id}/houses/{houseId}/inventory/{inventoryId}/consume', [InventoryController::class, 'consume']);
 

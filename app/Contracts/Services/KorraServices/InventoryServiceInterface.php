@@ -6,6 +6,8 @@ interface InventoryServiceInterface
 {
     public function create(int $userId, int $houseId, array $data = []): array;
 
+    public function update(int $houseId, int $userId, int $inventoryId, array $data = []): array;
+
     public function list(int $houseId): array;
 
     public function discard(int $id): array;
