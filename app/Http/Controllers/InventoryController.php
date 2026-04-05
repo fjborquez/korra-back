@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Contracts\Services\KorraServices\InventoryServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
-use Symfony\Component\HttpFoundation\Response;
 use App\Http\Requests\InventoryRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class InventoryController extends Controller
 {
