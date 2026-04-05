@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Http;
 
 class InventoryService implements InventoryServiceInterface
 {
+    public function create(array $data = []): Response
+    {
+        return Http::accept('application/json')->retry(3, 100, null, false)->post(Config::get('azula.url').'/inventory', $data);
+    }
+
     public function list(array $params = []): Response
     {
         return Http::accept('application/json')->retry(3, 100, null, false)->get(Config::get('azula.url').'/inventory', $params);

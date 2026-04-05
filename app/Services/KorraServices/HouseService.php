@@ -18,6 +18,32 @@ class HouseService implements HouseServiceInterface
         private readonly AangPersonHouseServiceInterface $aangPersonHouseService,
     ) {}
 
+    public function get(int $userId, int $houseId): array
+    {
+        // TODO: Validar que el usuario tenga acceso a la casa
+        $houseGetResponse = $this->aangHouseService->get($houseId);
+
+        if ($houseGetResponse->notFound()) {
+            $message = 'House not found';
+            $code = Response::HTTP_NOT_FOUND;
+
+            return [
+                'message' => $message,
+                'code' => $code,
+            ];
+        } elseif ($houseGetResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        $house = $houseGetResponse->json();
+
+        return [
+            'message' => $house,
+            'code' => Response::HTTP_OK,
+        ];
+
+    }
+
     public function list(int $userId): array
     {
         $params = [

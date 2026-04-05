@@ -5,12 +5,29 @@ namespace App\Http\Controllers;
 use App\Contracts\Services\KorraServices\InventoryServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\InventoryRequest;
 
 class InventoryController extends Controller
 {
+    private $fields = ['quantity', 'uom_id', 'uom_abbreviation', 'purchase_date', 'expiration_date',
+        'catalog_id', 'catalog_description', 'brand_id', 'brand_name', 'category_id', 'category_name', 'product_status'];
+
     public function __construct(
         private readonly InventoryServiceInterface $inventoryService
     ) {}
+
+    public function store(int $userId, int $houseId, InventoryRequest $request)
+    {
+        $validated = $request->safe()->only($this->fields);
+
+        try {
+            $response = $this->inventoryService->create($userId, $houseId, $validated);
+
+            return response()->json(['message' => $response['message']], $response['code']);
+        } catch (UnexpectedErrorException $exception) {
+            return response()->json(['message' => $exception->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     public function list(int $userId, int $houseId)
     {
