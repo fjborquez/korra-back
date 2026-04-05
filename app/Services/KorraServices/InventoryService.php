@@ -7,6 +7,7 @@ use App\Contracts\Services\AzulaServices\InventoryServiceInterface as AzulaInven
 use App\Contracts\Services\KorraServices\InventoryServiceInterface;
 use App\Contracts\Services\TophServices\UnitOfMeasurementServiceInterface as TophUnitOfMeasurementService;
 use App\Exceptions\UnexpectedErrorException;
+use App\Exceptions\InventoryUpdateNotAllowedException;
 use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -136,6 +137,183 @@ class InventoryService implements InventoryServiceInterface
             'message' => 'Inventory created successfully',
             'code' => Response::HTTP_CREATED,
         ];
+    }
+
+    public function update(int $houseId, int $userId, int $inventoryId, array $data = []): array
+    {
+        $newDetailData = $data;
+
+        if (! empty($newDetailData['product_status'])) {
+            $currentStatus = $this->extractActiveProductStatus($newDetailData);
+
+            if ($currentStatus['id'] == 3) {
+                throw new InventoryUpdateNotAllowedException('Can not update an expired item; it must be discarded');
+            }
+
+            if ($currentStatus['is_final_phase']) {
+                throw new InventoryUpdateNotAllowedException('Can not update a final phase item');
+            }
+        }
+
+        $house = $this->searchActiveHouse($houseId);
+
+        if ($this->isError($house)) {
+            return $house;
+        }
+
+        $newDetailData['house_description'] = $house['description'];
+        $detail = $this->searchDetailById($inventoryId);
+
+        if ($this->isError($detail)) {
+            return $detail;
+        }
+
+        if (empty($detail)) {
+            return [
+                'message' => 'Inventory not exists',
+                'code' => Response::HTTP_NOT_FOUND,
+            ];
+        }
+
+        $newDetailData['expiration_date'] = $this->getExpirationDateOrNull($newDetailData);
+
+        $inventory = $this->searchInventoryByParams([
+            'house_id' => $houseId,
+        ]);
+        $existingDetailsByCatalog = $this->searchItem($inventory, $newDetailData);
+        $existingDetailsByCatalogAndExclude = array_values($this->inventoryExcludingItem($existingDetailsByCatalog, $newDetailData));
+
+        if (empty($existingDetailsByCatalogAndExclude)) {
+            $updatedDetail = $this->updateInventory($inventoryId, $newDetailData);
+
+            if ($this->isError($updatedDetail)) {
+                return $updatedDetail;
+            }
+
+            return [
+                'message' => 'Inventory updated successfully',
+                'code' => Response::HTTP_OK,
+            ];
+        }
+
+        $existingDetailByUomAndExpirationDate = $this->searchItemDetails($existingDetailsByCatalogAndExclude, $newDetailData);
+
+        if (! empty($existingDetailByUomAndExpirationDate)) {
+            $newDetailData['quantity'] += $existingDetailByUomAndExpirationDate['quantity'];
+            $newDetailData['merged_id'] = $existingDetailByUomAndExpirationDate['id'];
+            $updatedDetail = $this->updateInventory($inventoryId, $newDetailData);
+
+            if ($this->isError($updatedDetail)) {
+                return $updatedDetail;
+            }
+
+            $discardedInventory = $this->discard($existingDetailByUomAndExpirationDate['id']);
+
+            if ($this->isError($discardedInventory) && $discardedInventory['code'] != 200) {
+                return $discardedInventory;
+            } else {
+                return [
+                    'message' => 'Inventory updated successfully',
+                    'code' => Response::HTTP_CREATED,
+                ];
+            }
+
+            return [
+                'message' => 'Inventory updated successfully',
+                'code' => Response::HTTP_OK,
+            ];
+        } else {
+            $existingDetail = $existingDetailsByCatalogAndExclude[0];
+
+            if ($existingDetail['expiration_date'] == $newDetailData['expiration_date']) {
+                if ($existingDetail['uom_id'] != $newDetailData['uom_id']) {
+                    $newFromConversion = $this->searchFromUom($newDetailData['uom_id'], $existingDetail['uom_id']);
+                    $oldFromConversion = $this->searchFromUom($existingDetail['uom_id'], $newDetailData['uom_id']);
+
+                    if ($newFromConversion != null && $this->isError($newFromConversion)) {
+                        return $newFromConversion;
+                    }
+
+                    if ($oldFromConversion != null && $this->isError($oldFromConversion)) {
+                        return $oldFromConversion;
+                    }
+
+                    if ($newFromConversion == null || $oldFromConversion == null) {
+                        $updatedInventory = $this->updateInventory($inventoryId, $newDetailData);
+
+                        if ($this->isError($updatedInventory)) {
+                            return $updatedInventory;
+                        } else {
+                            return [
+                                'message' => 'Inventory updated successfully',
+                                'code' => Response::HTTP_NO_CONTENT,
+                            ];
+                        }
+                    }
+
+                    if ($newFromConversion['factor'] >= $oldFromConversion['factor']) {
+                        $quantityWithUom = $this->calculateQuantity($existingDetail, $newDetailData, $oldFromConversion);
+                    } else {
+                        $quantityWithUom = $this->calculateQuantity($newDetailData, $existingDetail, $newFromConversion);
+                    }
+
+                    $newDetailData['quantity'] = $quantityWithUom['quantity'];
+                    $newDetailData['uom_abbreviation'] = $quantityWithUom['uom']['abbreviation'];
+                    $newDetailData['uom_id'] = $quantityWithUom['uom']['id'];
+                    $newDetailData['merged_id'] = $existingDetail['id'];
+                    $updatedInventory = $this->updateInventory($newDetailData['id'], $newDetailData);
+
+                    if ($this->isError($updatedInventory)) {
+                        return $updatedInventory;
+                    }
+
+                    $discardedInventory = $this->discard($existingDetail['id']);
+
+                    if ($this->isError($discardedInventory) && $discardedInventory['code'] != 200) {
+                        return $discardedInventory;
+                    } else {
+                        return [
+                            'message' => 'Inventory updated successfully',
+                            'code' => Response::HTTP_CREATED,
+                        ];
+                    }
+                } else {
+                    $existingQuantity = $existingDetail['quantity'];
+                    $addedQuantity = $newDetailData['quantity'];
+                    $newDetailData['quantity'] = $existingQuantity + $addedQuantity;
+                    $newDetailData['merged_id'] = $existingDetail['id'];
+
+                    $updatedInventory = $this->updateInventory($newDetailData['id'], $newDetailData);
+
+                    if ($this->isError($updatedInventory)) {
+                        return $updatedInventory;
+                    }
+
+                    $discardedInventory = $this->discard($existingDetail['id']);
+
+                    if ($this->isError($discardedInventory) && $discardedInventory['code'] != 200) {
+                        return $discardedInventory;
+                    } else {
+                        return [
+                            'message' => 'Inventory updated successfully',
+                            'code' => Response::HTTP_CREATED,
+                        ];
+                    }
+                }
+            } else {
+                $updatedInventory = $this->updateInventory($newDetailData['id'], $newDetailData);
+
+                if ($this->isError($updatedInventory)) {
+                    return $updatedInventory;
+                }
+
+                return [
+                    'message' => 'Inventory updated successfully',
+                    'code' => Response::HTTP_CREATED,
+                ];
+            }
+
+        }
     }
 
     public function list(int $houseId): array
@@ -447,5 +625,28 @@ class InventoryService implements InventoryServiceInterface
         $itemQuantity['uom']['id'] = $toApplyItemDetail['uom_id'];
 
         return $itemQuantity;
+    }
+
+    private function searchDetailById($detailId)
+    {
+        $detailGetResponse = $this->azulaInventoryService->get($detailId);
+
+        if ($detailGetResponse->notFound()) {
+            return [
+                'message' => 'Inventory not found',
+                'code' => Response::HTTP_NOT_FOUND,
+            ];
+        } elseif ($detailGetResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return $detailGetResponse->json();
+    }
+
+    private function inventoryExcludingItem($inventory, $detailToExclude)
+    {
+        return array_filter($inventory, function ($item) use ($detailToExclude) {
+            return $item['id'] !== $detailToExclude['id'];
+        });
     }
 }

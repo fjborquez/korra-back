@@ -29,6 +29,21 @@ class InventoryController extends Controller
         }
     }
 
+    public function update(int $userId, int $houseId, int $inventoryId, InventoryRequest $request)
+    {
+        $validated = $request->safe()->only($this->fields);
+
+        try {
+            $response = $this->inventoryService->update($userId, $houseId, $inventoryId, $validated);
+
+            return response()->json(['message' => $response['message']], $response['code']);
+        } catch (UnexpectedErrorException $exception) {
+            report($exception);
+
+            return response()->json($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
     public function list(int $userId, int $houseId)
     {
         try {
