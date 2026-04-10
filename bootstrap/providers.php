@@ -35,5 +35,6 @@ return [
     App\Providers\KorraServices\ProductCatalogServiceProvider::class,
     ResidentServiceProvider::class,
     App\Providers\KorraServices\UnitOfMeasurementServiceProvider::class,
+    App\Providers\KorraServices\ConfigurationServiceProvider::class,
 
 ];
