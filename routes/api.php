@@ -8,7 +8,10 @@ use App\Http\Controllers\ProductCatalogController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\UnitOfMeasurementController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ConfigurationController;
 
+Route::put('/user/{id}/configuration', [ConfigurationController::class, 'update']);
+Route::get('/user/{id}/configuration', [ConfigurationController:: class, 'get']);
 Route::get('/user/{id}/houses', [HouseController::class, 'list']);
 Route::post('/user/{id}/houses', [HouseController::class, 'create']);
 Route::get('/user/{id}/houses/{houseId}', [HouseController::class, 'get']);
