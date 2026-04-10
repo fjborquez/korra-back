@@ -2,12 +2,11 @@
 
 namespace App\Services\KorraServices;
 
-use App\Contracts\Services\KorraServices\ConfigurationServiceInterface;
-use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceInterface;
 use App\Contracts\Services\AangServices\PersonServiceInterface as AangPersonServiceInterface;
+use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceInterface;
+use App\Contracts\Services\KorraServices\ConfigurationServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
 use Symfony\Component\HttpFoundation\Response;
-
 
 class ConfigurationService implements ConfigurationServiceInterface
 {
@@ -25,7 +24,7 @@ class ConfigurationService implements ConfigurationServiceInterface
                 'message' => 'User not found',
                 'code' => Response::HTTP_NOT_FOUND,
             ];
-        } else if ($userResponse->failed()) {
+        } elseif ($userResponse->failed()) {
             throw new UnexpectedErrorException;
         }
 
@@ -38,7 +37,7 @@ class ConfigurationService implements ConfigurationServiceInterface
                 'message' => 'Person not found',
                 'code' => Response::HTTP_NOT_FOUND,
             ];
-        } else if ($userResponse->failed()) {
+        } elseif ($userResponse->failed()) {
             throw new UnexpectedErrorException;
         }
 
@@ -100,7 +99,7 @@ class ConfigurationService implements ConfigurationServiceInterface
             throw new UnexpectedErrorException;
         }
 
-        if (!empty($data['password'])) {
+        if (! empty($data['password'])) {
             $user['password'] = $data['password'];
             $updateUserResponse = $this->aangUserService->update($user['id'], $user);
 

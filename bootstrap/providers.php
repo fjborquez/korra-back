@@ -8,6 +8,7 @@ use App\Providers\AangServices\PersonServiceProvider;
 use App\Providers\AangServices\UserServiceProvider;
 use App\Providers\AppServiceProvider;
 use App\Providers\AzulaServices\InventoryServiceProvider;
+use App\Providers\KorraServices\ConfigurationServiceProvider;
 use App\Providers\KorraServices\ResidentServiceProvider;
 use App\Providers\TophServices\UnitOfMeasurementServiceProvider;
 use App\Providers\ZukoServices\ProductCatalogServiceProvider;
@@ -35,6 +36,6 @@ return [
     App\Providers\KorraServices\ProductCatalogServiceProvider::class,
     ResidentServiceProvider::class,
     App\Providers\KorraServices\UnitOfMeasurementServiceProvider::class,
-    App\Providers\KorraServices\ConfigurationServiceProvider::class,
+    ConfigurationServiceProvider::class,
 
 ];
