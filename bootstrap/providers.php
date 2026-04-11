@@ -1,6 +1,5 @@
 <?php
 
-use App\Mail\RecoverPassword;
 use App\Providers\AangServices\AuthTokenServiceProvider;
 use App\Providers\AangServices\CityServiceProvider;
 use App\Providers\AangServices\HouseServiceProvider;
