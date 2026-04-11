@@ -11,7 +11,7 @@ class UserService implements UserServiceInterface
 {
     public function list(array $params = []): Response
     {
-        return Http::accept('application/json')->retry(3, 100, null, false)->put(Config::get('aang.url').'/user', $params);
+        return Http::accept('application/json')->retry(3, 100, null, false)->get(Config::get('aang.url').'/user', $params);
     }
 
     public function get(int $id): Response
