@@ -22,6 +22,8 @@ class RecoverPasswordService implements RecoverPasswordServiceInterface
             'filter[email]' => $email,
         ]);
 
+        dd($userResponse);
+
         if ($userResponse->failed()) {
             throw new UnexpectedErrorException;
         }
