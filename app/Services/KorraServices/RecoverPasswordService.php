@@ -2,20 +2,19 @@
 
 namespace App\Services\KorraServices;
 
-use App\Contracts\Services\KorraServices\RecoverPasswordServiceInterface;
 use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceInterface;
+use App\Contracts\Services\KorraServices\RecoverPasswordServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
 use App\Mail\RecoverPassword;
-use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Symfony\Component\HttpFoundation\Response;
 
 class RecoverPasswordService implements RecoverPasswordServiceInterface
 {
     public function __construct(
         private readonly AangUserServiceInterface $aangUserService
-    )
-    {}
+    ) {}
 
     public function recover(string $email): array
     {
@@ -49,6 +48,7 @@ class RecoverPasswordService implements RecoverPasswordServiceInterface
             ];
         } catch (\Exception $e) {
             Log::error('Error al enviar correo de recuperación de contraseña: '.$e->getMessage());
+
             return [
                 'message' => $e->getMessage(),
                 'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
