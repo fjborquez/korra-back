@@ -12,6 +12,7 @@ use App\Providers\KorraServices\ConfigurationServiceProvider;
 use App\Providers\KorraServices\ResidentServiceProvider;
 use App\Providers\TophServices\UnitOfMeasurementServiceProvider;
 use App\Providers\ZukoServices\ProductCatalogServiceProvider;
+use App\Proviers\KorraServices\RecoverPasswordServiceProvider;
 
 return [
     AppServiceProvider::class,
@@ -37,6 +38,6 @@ return [
     ResidentServiceProvider::class,
     App\Providers\KorraServices\UnitOfMeasurementServiceProvider::class,
     ConfigurationServiceProvider::class,
-    App\Proviers\KorraServices\RecoverPasswordServiceProvider::class,
+    RecoverPasswordServiceProvider::class,
 
 ];
