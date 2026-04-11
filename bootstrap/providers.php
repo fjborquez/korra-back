@@ -14,6 +14,7 @@ use App\Providers\KorraServices\RecoverPasswordServiceProvider;
 use App\Providers\KorraServices\ResidentServiceProvider;
 use App\Providers\TophServices\UnitOfMeasurementServiceProvider;
 use App\Providers\ZukoServices\ProductCatalogServiceProvider;
+use App\Proviers\KorraServices\RecoverPasswordServiceProvider;
 
 return [
     AppServiceProvider::class,
