@@ -22,7 +22,7 @@ class ConfigurationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required',],
+            'name' => ['required'],
             'lastname' => ['required'],
             'date_of_birth' => ['required'],
             'password' => [],
