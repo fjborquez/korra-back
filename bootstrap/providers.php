@@ -37,5 +37,6 @@ return [
     ResidentServiceProvider::class,
     App\Providers\KorraServices\UnitOfMeasurementServiceProvider::class,
     ConfigurationServiceProvider::class,
+    App\Proviers\KorraServices\RecoverPasswordServiceProvider::class,
 
 ];

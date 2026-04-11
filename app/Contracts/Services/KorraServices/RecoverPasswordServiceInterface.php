@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Services\KorraServices;
 
-interface RecoverPasswordServiceInterface {
+interface RecoverPasswordServiceInterface
+{
     public function recover(string $email): array;
 }

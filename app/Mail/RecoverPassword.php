@@ -17,8 +17,7 @@ class RecoverPassword extends Mailable
      */
     public function __construct(
         protected array $person
-    )
-    {
+    ) {
         //
     }
 

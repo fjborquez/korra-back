@@ -6,10 +6,10 @@ use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ProductCatalogController;
+use App\Http\Controllers\RecoverPasswordController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\UnitOfMeasurementController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RecoverPasswordController;
 
 Route::put('/user/{id}/configuration', [ConfigurationController::class, 'update']);
 Route::get('/user/{id}/configuration', [ConfigurationController::class, 'get']);
