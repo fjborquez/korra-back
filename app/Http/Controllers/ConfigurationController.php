@@ -15,7 +15,8 @@ class ConfigurationController extends Controller
         private readonly ConfigurationServiceInterface $configurationService
     ) {}
 
-    public function get(int $userId) {
+    public function get(int $userId)
+    {
         try {
             $response = $this->configurationService->get($userId);
 
