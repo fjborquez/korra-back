@@ -22,13 +22,11 @@ class RecoverPasswordService implements RecoverPasswordServiceInterface
             'filter[email]' => $email,
         ]);
 
-        dd($userResponse);
-
         if ($userResponse->failed()) {
             throw new UnexpectedErrorException;
         }
 
-        $userList = $userResponse->json()['message'];
+        $userList = $userResponse->json();
 
         if (empty($userList)) {
             return [
