@@ -9,6 +9,7 @@ use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\UnitOfMeasurementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ConfigurationController;
+use App\Http\Controllers\RecoverPasswordController;
 
 Route::put('/user/{id}/configuration', [ConfigurationController::class, 'update']);
 Route::get('/user/{id}/configuration', [ConfigurationController:: class, 'get']);
@@ -32,3 +33,5 @@ Route::get('/unit-of-measurement', [UnitOfMeasurementController::class, 'list'])
 Route::post('/auth/token', [AuthTokenController::class, 'create']);
 
 Route::get('/city', [CityController::class, 'list']);
+
+Route::post('/recover-password', [RecoverPasswordController::class, 'recover']);
