@@ -1,5 +1,6 @@
 <?php
 
+use App\Mail\RecoverPassword;
 use App\Providers\AangServices\AuthTokenServiceProvider;
 use App\Providers\AangServices\CityServiceProvider;
 use App\Providers\AangServices\HouseServiceProvider;
@@ -9,6 +10,7 @@ use App\Providers\AangServices\UserServiceProvider;
 use App\Providers\AppServiceProvider;
 use App\Providers\AzulaServices\InventoryServiceProvider;
 use App\Providers\KorraServices\ConfigurationServiceProvider;
+use App\Providers\KorraServices\RecoverPasswordServiceProvider;
 use App\Providers\KorraServices\ResidentServiceProvider;
 use App\Providers\TophServices\UnitOfMeasurementServiceProvider;
 use App\Providers\ZukoServices\ProductCatalogServiceProvider;
@@ -37,6 +39,6 @@ return [
     ResidentServiceProvider::class,
     App\Providers\KorraServices\UnitOfMeasurementServiceProvider::class,
     ConfigurationServiceProvider::class,
-    App\Proviers\KorraServices\RecoverPasswordServiceProvider::class,
+    RecoverPasswordServiceProvider::class,
 
 ];
