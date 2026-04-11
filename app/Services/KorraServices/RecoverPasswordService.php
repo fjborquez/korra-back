@@ -9,6 +9,7 @@ use App\Mail\RecoverPassword;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Config;
 
 class RecoverPasswordService implements RecoverPasswordServiceInterface
 {
@@ -37,9 +38,21 @@ class RecoverPasswordService implements RecoverPasswordServiceInterface
 
         $user = $userList[0];
 
+        $passwordTokenResponse = $this->aangUserService->passwordToken([
+            'email' => $email,
+        ]);
+
+        if ($passwordTokenResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        $passwordToken = $passwordTokenResponse->json()['message']['password_token'];
+
         try {
             Mail::to($email)->send(new RecoverPassword(
-                $user['person']
+                $user['person'],
+                $passwordToken,
+                Config::get('korra.url')
             ));
 
             return [
@@ -54,6 +67,19 @@ class RecoverPasswordService implements RecoverPasswordServiceInterface
                 'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
             ];
         }
+    }
 
+    public function reset(array $data = []): array
+    {
+        $resetPasswordResponse = $this->aangUserService->resetPassword($data);
+
+        if ($resetPasswordResponse->failed()) {
+            throw new UnexpectedErrorException;
+        }
+
+        return [
+            'message' => 'Password reset successfully',
+            'code' => Response::HTTP_OK,
+        ];
     }
 }

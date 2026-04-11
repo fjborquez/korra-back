@@ -16,7 +16,9 @@ class RecoverPassword extends Mailable
      * Create a new message instance.
      */
     public function __construct(
-        protected array $person
+        protected array $person,
+        protected string $token,
+        protected string $korraUrl
     ) {
         //
     }
@@ -40,6 +42,8 @@ class RecoverPassword extends Mailable
             view: 'recover-password',
             with: [
                 'person' => $this->person,
+                'token' => $this->token,
+                'korraUrl' => $this->korraUrl,
             ]
         );
     }

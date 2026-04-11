@@ -35,3 +35,4 @@ Route::post('/auth/token', [AuthTokenController::class, 'create']);
 Route::get('/city', [CityController::class, 'list']);
 
 Route::post('/recover-password', [RecoverPasswordController::class, 'recover']);
+Route::post('/reset-password', [RecoverPasswordController::class, 'reset']);
