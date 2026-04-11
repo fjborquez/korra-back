@@ -11,4 +11,8 @@ interface UserServiceInterface
     public function get(int $id): Response;
 
     public function update(int $id, array $data = []): Response;
+
+    public function passwordToken(array $data = []): Response;
+
+    public function resetPassword(array $data = []): Response;
 }
