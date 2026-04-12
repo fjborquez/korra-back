@@ -33,5 +33,4 @@ class UserService implements UserServiceInterface
     {
         return Http::accept('application/json')->retry(3, 100, null, false)->post(Config::get('aang.url').'/password/reset', $data);
     }
-
 }
