@@ -6,10 +6,10 @@ use App\Contracts\Services\AangServices\UserServiceInterface as AangUserServiceI
 use App\Contracts\Services\KorraServices\RecoverPasswordServiceInterface;
 use App\Exceptions\UnexpectedErrorException;
 use App\Mail\RecoverPassword;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Config;
 
 class RecoverPasswordService implements RecoverPasswordServiceInterface
 {
